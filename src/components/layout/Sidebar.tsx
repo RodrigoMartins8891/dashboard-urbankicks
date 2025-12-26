@@ -6,7 +6,7 @@ import LogoImg from "../../assets/urbankicks-logo.png";
 export default function Sidebar() {
   const location = useLocation();
 
-  const activeClass = (path) =>
+const activeClass = (path: string) =>
     location.pathname === path
       ? "block p-3 bg-blue-600 rounded-lg font-medium"
       : "block p-3 hover:bg-slate-800 rounded-lg transition-colors";
