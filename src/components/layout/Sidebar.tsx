@@ -17,7 +17,7 @@ const activeClass = (path: string) =>
       {/* 2. Troca do texto pela Imagem */}
       <div className="border-b border-slate-700 pb-6 mb-6 flex justify-center">
         <img
-          src={LogoImg}
+          src={LogoImg.src}
           alt="UrbanKicks Logo"
           className="w-48 h-auto object-contain" // w-48 deixa a logo com 192px de largura
         />
