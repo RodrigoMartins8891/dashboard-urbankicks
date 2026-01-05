@@ -1,33 +1,48 @@
+"use client"; // Obrigatório para usar hooks como usePathname
+
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-// 1. Importe a imagem (ajuste o nome do arquivo conforme o seu)
+import Link from 'next/link';
+import { usePathname } from 'next/navigation'; // Hook correto do Next.js
 import LogoImg from "../../assets/urbankicks-logo.png";
 
 export default function Sidebar() {
-  const location = useLocation();
+  const pathname = usePathname(); // Substitui o location.pathname
 
-const activeClass = (path: string) =>
-    location.pathname === path
+  const activeClass = (path: string) =>
+    pathname === path
       ? "block p-3 bg-blue-600 rounded-lg font-medium"
-      : "block p-3 hover:bg-slate-800 rounded-lg transition-colors";
+      : "block p-3 hover:bg-slate-800 rounded-lg transition-colors text-slate-300";
 
   return (
     <aside className="w-64 h-screen bg-slate-900 text-white fixed left-0 top-0 p-5 shadow-xl">
 
-      {/* 2. Troca do texto pela Imagem */}
+      {/* Logo */}
       <div className="border-b border-slate-700 pb-6 mb-6 flex justify-center">
         <img
           src={LogoImg.src}
           alt="UrbanKicks Logo"
-          className="w-48 h-auto object-contain" // w-48 deixa a logo com 192px de largura
+          className="w-48 h-auto object-contain"
         />
       </div>
 
-      <nav className="space-y-4">
-        <Link to="/" className={activeClass('/')}>Dashboard</Link>
-        <Link to="/products" className={activeClass('/products')}>Produtos</Link>
-        <Link to="/vendas" className={activeClass('/vendas')}>Vendas</Link>
-        <Link to="/clientes" className={activeClass('/clientes')}>Clientes</Link>
+      {/* Navegação */}
+      <nav className="flex flex-col space-y-2">
+        {/* Adicionei o "/" para o Dashboard/Home */}
+        <Link href="/" className={activeClass("/")}>
+          Dashboard
+        </Link>
+        
+        <Link href="/Products" className={activeClass("/Products")}>
+          Produtos
+        </Link>
+        
+        <Link href="/Sales" className={activeClass("/Sales")}>
+          Vendas
+        </Link>
+        
+        <Link href="/Customers" className={activeClass("/Customers")}>
+          Clientes
+        </Link>
       </nav>
     </aside>
   );

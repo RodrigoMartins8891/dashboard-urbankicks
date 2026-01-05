@@ -1,15 +1,16 @@
-
 import React, { useState, useEffect } from 'react';
 import { Plus, Trash2, Search } from 'lucide-react';
 import { formatCurrency } from '../utils/formatters';
+import MainLayout from '../components/layout/MainLayout'; // Importação do Layout
 
-export default function Products() {
+export default function ProductsPage() {
     const [products, setProducts] = useState([]);
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
     const [stock, setStock] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
 
+    // Carregar dados iniciais (apenas no cliente)
     useEffect(() => {
         const savedProducts = localStorage.getItem('sneaker_products');
         if (savedProducts) {
@@ -21,6 +22,7 @@ export default function Products() {
         }
     }, []);
 
+    // Salvar sempre que produtos mudar
     useEffect(() => {
         if (products.length > 0) {
             localStorage.setItem('sneaker_products', JSON.stringify(products));
@@ -54,70 +56,72 @@ export default function Products() {
     };
 
     return (
-        <div className="space-y-8">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <h1 className="text-3xl font-bold text-slate-800">Gerenciar Estoque</h1>
-                <div className="relative w-full md:w-80">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                    <input
-                        type="text"
-                        placeholder="Buscar por nome..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 shadow-sm text-slate-700"
-                    />
+        <MainLayout>
+            <div className="space-y-8">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <h1 className="text-3xl font-bold text-slate-800">Gerenciar Estoque</h1>
+                    <div className="relative w-full md:w-80">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                        <input
+                            type="text"
+                            placeholder="Buscar por nome..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 shadow-sm text-slate-700"
+                        />
+                    </div>
                 </div>
-            </div>
 
-            <form onSubmit={handleAddProduct} className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
-                <div>
-                    <label className="text-sm font-medium text-slate-600 block mb-1">Nome</label>
-                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none focus:ring-2 focus:ring-blue-500 text-slate-700" />
-                </div>
-                <div>
-                    <label className="text-sm font-medium text-slate-600 block mb-1">Preço</label>
-                    <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none focus:ring-2 focus:ring-blue-500 text-slate-700" />
-                </div>
-                <div>
-                    <label className="text-sm font-medium text-slate-600 block mb-1">Estoque</label>
-                    <input type="number" value={stock} onChange={(e) => setStock(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none focus:ring-2 focus:ring-blue-500 text-slate-700" />
-                </div>
-                <button type="submit" className="bg-blue-600 text-white p-2 rounded-lg font-bold hover:bg-blue-700 transition-all flex items-center justify-center gap-2">
-                    <Plus size={20} /> Cadastrar
-                </button>
-            </form>
+                <form onSubmit={handleAddProduct} className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                    <div>
+                        <label className="text-sm font-medium text-slate-600 block mb-1">Nome</label>
+                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none focus:ring-2 focus:ring-blue-500 text-slate-700" />
+                    </div>
+                    <div>
+                        <label className="text-sm font-medium text-slate-600 block mb-1">Preço</label>
+                        <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none focus:ring-2 focus:ring-blue-500 text-slate-700" />
+                    </div>
+                    <div>
+                        <label className="text-sm font-medium text-slate-600 block mb-1">Estoque</label>
+                        <input type="number" value={stock} onChange={(e) => setStock(e.target.value)} className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 outline-none focus:ring-2 focus:ring-blue-500 text-slate-700" />
+                    </div>
+                    <button type="submit" className="bg-blue-600 text-white p-2 rounded-lg font-bold hover:bg-blue-700 transition-all flex items-center justify-center gap-2">
+                        <Plus size={20} /> Cadastrar
+                    </button>
+                </form>
 
-            <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
-                <table className="w-full text-left text-slate-700">
-                    <thead className="bg-slate-50 border-b border-slate-100 text-slate-500 text-sm">
-                        <tr>
-                            <th className="px-6 py-4">Produto</th>
-                            <th className="px-6 py-4">Preço</th>
-                            <th className="px-6 py-4">Qtd</th>
-                            <th className="px-6 py-4 text-right">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100">
-                        {filteredProducts.map((p) => (
-                            <tr key={p.id} className="hover:bg-slate-50 transition-colors">
-                                <td className="px-6 py-4 flex items-center gap-3">
-                                    <img src={p.image} className="w-10 h-10 rounded shadow-inner object-cover" alt={p.name} />
-                                    <span className="font-bold">{p.name}</span>
-                                </td>
-                                <td className="px-6 py-4 font-bold">
-                                    {formatCurrency(p.price)}
-                                </td>
-                                <td className="px-6 py-4 font-bold text-slate-600 text-xs">{p.stock} un</td>
-                                <td className="px-6 py-4 text-right">
-                                    <button type="button" onClick={() => handleDelete(p.id)} className="text-slate-400 hover:text-red-600 transition-colors p-1">
-                                        <Trash2 size={18} />
-                                    </button>
-                                </td>
+                <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+                    <table className="w-full text-left text-slate-700">
+                        <thead className="bg-slate-50 border-b border-slate-100 text-slate-500 text-sm">
+                            <tr>
+                                <th className="px-6 py-4">Produto</th>
+                                <th className="px-6 py-4">Preço</th>
+                                <th className="px-6 py-4">Qtd</th>
+                                <th className="px-6 py-4 text-right">Ações</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100">
+                            {filteredProducts.map((p) => (
+                                <tr key={p.id} className="hover:bg-slate-50 transition-colors">
+                                    <td className="px-6 py-4 flex items-center gap-3">
+                                        <img src={p.image} className="w-10 h-10 rounded shadow-inner object-cover" alt={p.name} />
+                                        <span className="font-bold">{p.name}</span>
+                                    </td>
+                                    <td className="px-6 py-4 font-bold">
+                                        {formatCurrency(p.price)}
+                                    </td>
+                                    <td className="px-6 py-4 font-bold text-slate-600 text-xs">{p.stock} un</td>
+                                    <td className="px-6 py-4 text-right">
+                                        <button type="button" onClick={() => handleDelete(p.id)} className="text-slate-400 hover:text-red-600 transition-colors p-1">
+                                            <Trash2 size={18} />
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+        </MainLayout>
     );
 }
