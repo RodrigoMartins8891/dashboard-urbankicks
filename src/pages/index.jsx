@@ -1,11 +1,17 @@
 import React from "react";
-import MainLayout from "../components/layout/MainLayout.tsx";
-import Dashboard from "./Dashboard.jsx";
+import dynamic from 'next/dynamic';
+import { MemoryRouter as Router } from "react-router-dom";
+
+// Carrega o Layout e o Dashboard apenas no cliente (sem SSR)
+const MainLayout = dynamic(() => import("../components/layout/MainLayout"), { ssr: false });
+const Dashboard = dynamic(() => import("./Dashboard"), { ssr: false });
 
 export default function Home() {
   return (
-    <MainLayout>
-      <Dashboard />
-    </MainLayout>
+    <Router>
+      <MainLayout>
+        <Dashboard />
+      </MainLayout>
+    </Router>
   );
 }
